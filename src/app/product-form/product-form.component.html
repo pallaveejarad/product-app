@@ -1,0 +1,25 @@
+<h2>{{ isEditing ? 'Edit Product Details' : 'Add NewNew Product' }}</h2>
+
+<form (ngSubmit)="saveProduct()" class="product-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Product Name</mat-label>
+    <input matInput [(ngModel)]="product.name" name="name" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Price</mat-label>
+    <input matInput type="number" [(ngModel)]="product.price" name="price" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Product Description</mat-label>
+    <input matInput [(ngModel)]="product.description" name="description" required>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">
+    {{ isEditing ? 'Update' : 'Create' }} Product
+  </button>
+
+  <button mat-raised-button color="warn" type="button" (click)="router.navigate(['/products'])">
+    Cancel
+  </button>
+</form>

@@ -1,0 +1,19 @@
+
+  
+  nav a {
+    color: rgb(23, 2, 2);
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  nav a.active {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  
+  main {
+    padding: 20px;
+    min-height: 70vh; /* Ensures content fills the page */
+  }
+  
+  
