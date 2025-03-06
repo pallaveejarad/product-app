@@ -1,25 +1,39 @@
-<h2>{{ isEditing ? 'Edit Product Details' : 'Add NewNew Product' }}</h2>
+<h1> {{isEditing? "Edit product Details": "Add new Product"}} </h1>
 
-<form (ngSubmit)="saveProduct()" class="product-form">
+<form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+  
+  <!-- Name Field -->
   <mat-form-field appearance="outline">
     <mat-label>Product Name</mat-label>
-    <input matInput [(ngModel)]="product.name" name="name" required>
+    <input matInput formControlName="name">
+    <mat-error *ngIf="productForm.get('name')?.hasError('required')">Name is required</mat-error>
+    <mat-error *ngIf="productForm.get('name')?.hasError('minlength')">Minimum 2 characters required</mat-error>
+    <mat-error *ngIf="productForm.get('name')?.hasError('maxlength')">Maximum 10 characters allowed</mat-error>
   </mat-form-field>
 
+  <!-- Price Field -->
   <mat-form-field appearance="outline">
     <mat-label>Price</mat-label>
-    <input matInput type="number" [(ngModel)]="product.price" name="price" required>
+    <input matInput type="number" formControlName="price">
+    <mat-error *ngIf="productForm.get('price')?.hasError('required')">Price is required</mat-error>
+    <mat-error *ngIf="productForm.get('price')?.hasError('min')">Price must be at least 1</mat-error>
   </mat-form-field>
 
+  <!-- Description Field -->
   <mat-form-field appearance="outline">
     <mat-label>Product Description</mat-label>
-    <input matInput [(ngModel)]="product.description" name="description" required>
+    <input matInput formControlName="description">
+    <mat-error *ngIf="productForm.get('description')?.hasError('required')">Description is required</mat-error>
+    <mat-error *ngIf="productForm.get('description')?.hasError('minlength')">Minimum 2 characters required</mat-error>
+    <mat-error *ngIf="productForm.get('description')?.hasError('maxlength')">Maximum 100 characters allowed</mat-error>
   </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
     {{ isEditing ? 'Update' : 'Create' }} Product
   </button>
 
   <button mat-raised-button color="warn" type="button" (click)="router.navigate(['/products'])">
     Cancel
   </button>
+
 </form>

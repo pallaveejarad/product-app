@@ -7,11 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-interface BackendErrors{
-  name?: string,
-  price?:string,
-  description?: string;
-}
+
 
 @Component({
   selector: 'app-product-form',
@@ -20,7 +16,6 @@ interface BackendErrors{
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    NgIf,
     ReactiveFormsModule
   ],
   templateUrl: './product-form.component.html',
@@ -29,7 +24,8 @@ interface BackendErrors{
 export class ProductFormComponent implements OnInit {
   product: Product = { id: undefined, name: '', price: 0, description:''};
   isEditing = false;
-  backendErrors: BackendErrors = {};
+  productForm!:FormGroup;
+  prouctId: any;
 
   constructor(
     private productService: ProductService,
@@ -39,25 +35,34 @@ export class ProductFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    // this.productForm= this.fb.group({
-    //   name:['',Validators.required, Validators.maxLength(10),Validators.minLength(2)],
-    //   price:['',Validators.required,Validators.minLength(1)],
-    //   description:['',Validators.required, Validators.maxLength(100),Validators.minLength(2)]
-    // });
-    if (id) {
+    this.prouctId = this.route.snapshot.paramMap.get('id');
+    
+    this.productForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
+      price: ['', [Validators.required, Validators.min(1)]], 
+      description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
+    });
+    
+
+    if (this.prouctId) {
       this.isEditing = true;
-      this.productService.getProductById(+id).subscribe((data) => {
-        this.product = data;
+      this.productService.getProductById(+this.prouctId).subscribe((product) => {
+        this.productForm.patchValue(product);
       });
     }
   }
 
   saveProduct() {
     
+    if(this.productForm.invalid){
+     return;
+    }
+
+    const productData = this.productForm.value;
+
       if (this.isEditing) {
-        if(this.product.id!==undefined){
-          this.productService.updateProduct(this.product.id, this.product).subscribe(() => {
+        if(this.prouctId!==undefined){
+          this.productService.updateProduct(this.prouctId, productData).subscribe(() => {
             alert('Product updated successfully!');
             this.router.navigate(['/products']);
           });
@@ -66,13 +71,16 @@ export class ProductFormComponent implements OnInit {
       } else {
         // this.newProduct.name=this.product.name;
         //this.newProduct.price=this.product.price;
-        this.productService.createProduct(this.product).subscribe(() => {
+        this.productService.createProduct(productData).subscribe(() => {
           alert('Product created successfully!');
           this.router.navigate(['/products']);
         });
       }
 
     }
-    
-  }
 
+    hasError(controlName: string, errorName: string): boolean {
+      return this.productForm.get(controlName)?.hasError(errorName) ?? false;
+    }    
+    
+}

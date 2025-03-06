@@ -1,33 +1,79 @@
 .product-form {
-    width: 400px;
-    margin: 30px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
-    text-align: center;
-    color: #3f51b5;
-  }
-  
-  .full-width {
-    width: 100%;
-  }
-  
-  button {
-    width: 100%;
-    margin-top: 10px;
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #388e3c;
-  }
-  
+  width: 400px;
+  margin: 30px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Adds spacing between form elements */
+}
+
+h2 {
+  text-align: center;
+  color: #3f51b5;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+h1 {
+  text-align: left;
+  color: #3f51b5;
+  font-size: 1.8rem;
+  margin-top: 20px; /* Adds space below the title */
+  margin-bottom: 10px;
+}
+
+
+mat-form-field {
+  width: 50%;
+}
+
+/* Button styles */
+button {
+  width: 20%;
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Primary button */
+button[color="primary"] {
+  background-color: #4caf50;
+  color: white;
+}
+
+button[color="primary"]:hover {
+  background-color: #388e3c;
+}
+
+/* Cancel button */
+button[color="warn"] {
+  background-color: #f44336;
+}
+
+button[color="warn"]:hover {
+  background-color: #d32f2f;
+}
+
+/* Improve form-field appearance */
+mat-form-field {
+  display: block;
+}
+
+/* Error Message Styling */
+mat-error {
+  font-size: 14px;
+  color: red;
+}
+
+button[disabled] {
+  opacity: 0.5;  /* Make it look faded */
+  cursor: not-allowed; /* Show disabled cursor */
+  background-color: #ccc !important; /* Change background */
+  color: #666 !important; /* Change text color */
+}
