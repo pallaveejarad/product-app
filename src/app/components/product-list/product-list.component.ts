@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { Product, ProductService } from '../product.service';
+
 import { Router } from '@angular/router';
+import { Product, ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-list',
