@@ -9,6 +9,13 @@ export interface Product {
   description: string;
 }
 
+export interface PaginatedResponse { 
+  content: Product[],
+  totalElements: number;  
+
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,8 +25,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+  getProducts(page: number, size: number): Observable<PaginatedResponse> {
+    return this.http.get<PaginatedResponse>(`${this.apiUrl}?page=${page}&size=${size}`);
   }
 
   getProduct(id: number): Observable<Product> {
