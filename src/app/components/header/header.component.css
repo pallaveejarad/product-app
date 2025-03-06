@@ -1,0 +1,35 @@
+.header {
+    position: fixed; /* Fixes the header at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f7f4f7;
+    color: rgb(10, 0, 0);
+    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensures header stays above other elements */
+  }
+  
+  h1 {
+text-align: center;
+  }
+
+  nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  nav a.active {
+    text-decoration: underline;
+  }
+  
+  /* Ensure page content doesn't go under the header */
+  body {
+    margin-top: 60px; /* Adjust based on header height */
+  }
+  

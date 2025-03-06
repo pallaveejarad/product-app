@@ -15,5 +15,12 @@
     padding: 20px;
     min-height: 70vh; /* Ensures content fills the page */
   }
-  
+  /* Push main content below the fixed header */
+.main-content {
+  margin-top: 70px; /* Adjust this based on your header's height */
+  margin-bottom: 50px; /* Adjust for footer height if needed */
+  padding: 20px;
+  flex: 5;
+}
+
   
