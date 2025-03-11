@@ -28,6 +28,18 @@
     <mat-error *ngIf="productForm.get('description')?.hasError('maxlength')">Maximum 100 characters allowed</mat-error>
   </mat-form-field>
 
+ <!-- File Upload Field -->
+<div class="custom-file-upload">
+  <label>Upload File:</label>
+  <input type="file" (change)="onFileSelected($event)" #fileInput hidden />
+  
+  <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">
+    Choose File
+  </button>
+
+  <span *ngIf="selectedFile">{{ selectedFile?.name }}</span>
+</div>
+
   <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
     {{ isEditing ? 'Update' : 'Create' }} Product
   </button>
