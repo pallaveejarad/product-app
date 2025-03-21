@@ -11,6 +11,7 @@ export interface Product {
   productRange: ProductRange;
   countries:CountryMasterData;
   availability: string;
+  featuresWant: String;
 
 }
 

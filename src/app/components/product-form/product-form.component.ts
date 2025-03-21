@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatOption } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';   
 
 
 
@@ -23,7 +24,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatSelectModule,
     CommonModule,
     MatOption,
-    MatRadioModule
+    MatRadioModule,
+    MatCheckboxModule
   ],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css']
@@ -34,8 +36,10 @@ export class ProductFormComponent implements OnInit {
     id: undefined, name: '', price: 0, description: '', uploadedfile: null,
     productRange: {} as ProductRange,
     countries: {} as CountryMasterData,
-    availability: ''
+    availability: '',
+    featuresWant: ''
   };
+
   productRange: ProductRange[] = [];
   countryMasterData: CountryMasterData[] = [];
   isEditing = false;
@@ -75,7 +79,13 @@ export class ProductFormComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       productRange: ['', Validators.required], 
       countryIds: [[], Validators.required],
-      availability: ['', Validators.required]
+      availability: ['', Validators.required],
+      featuresWant: this.fb.group({
+        Robust:[false],
+        Portable:[false],
+        Efficient:[false],
+        Reasonable:[false],
+      })
     });
 
 
@@ -91,7 +101,13 @@ export class ProductFormComponent implements OnInit {
           productRange: product.productRange?.id ?? null,
           countryIds: Array.isArray(product.countries) 
             ? product.countries.map((c: any) => c.id) 
-            : [] 
+            : [] ,
+            featuresWant: {
+              Robust: product.featuresWant ? product.featuresWant.includes('Robust') : false,
+              Portable: product.featuresWant ? product.featuresWant.includes('Portable') : false,
+              Efficient: product.featuresWant ? product.featuresWant.includes('Efficient') : false,
+              Reasonable: product.featuresWant ? product.featuresWant.includes('Reasonable') : false,
+            }
         });
       });
     }
@@ -107,7 +123,6 @@ export class ProductFormComponent implements OnInit {
     if (this.selectedFile) {
       productData.file = this.selectedFile; // Add file if selected
     }
-
     const formData = convertToFormData(this.productForm);
 
 
@@ -154,6 +169,11 @@ function convertToFormData(obj: any): FormData {
         rawValues['countryIds'].forEach((id: number) => {
           formData.append('countryIds', id.toString());  // Append values separately
         });
+      } else if (key === 'featuresWant' && typeof rawValues[key] === 'object'){
+        const selectedFeatures = Object.keys(rawValues[key])
+        .filter(feature => rawValues[key][feature]) // Get only selected checkboxes
+        .join(', '); // Convert to CSV format
+      formData.append(key, selectedFeatures);
       } else {
         formData.append(key, rawValues[key].toString());
       }

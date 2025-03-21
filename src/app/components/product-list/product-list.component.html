@@ -53,6 +53,14 @@
     </td>
   </ng-container>  
 
+  <!--Features-->
+  <ng-container matColumnDef="featuresWant">
+  <th mat-header-cell *matHeaderCellDef> Features </th>
+  <td mat-cell *matCellDef="let product">
+    {{ product.featuresWant ? product.featuresWant : 'No Features' }}
+  </td>
+  </ng-container>
+
   <!-- Actions Column -->
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Actions </th>

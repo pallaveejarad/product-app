@@ -75,6 +75,15 @@
 </div>
 
 
+<div formGroupName="featuresWant">
+  <label> Features:</label>
+  <mat-checkbox formControlName= "Robust"> Robust</mat-checkbox>
+  <mat-checkbox formControlName= "Portable"> Portable</mat-checkbox>
+  <mat-checkbox formControlName= "Efficient"> Efficient</mat-checkbox>
+  <mat-checkbox formControlName= "Reasonable"> Reasonable</mat-checkbox>
+</div>
+
+
   <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
     {{ isEditing ? 'Update' : 'Create' }} Product
   </button>
