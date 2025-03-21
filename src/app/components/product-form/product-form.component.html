@@ -66,6 +66,14 @@
   </mat-error>
 </mat-form-field>
 
+<div>
+<label>Availability: </label>
+<mat-radio-group formControlName="availability"> 
+<mat-radio-button value="In-Stock"> In-Stock</mat-radio-button>
+<mat-radio-button value="Out-Of-Stock"> Out-Of-Stock</mat-radio-button>
+</mat-radio-group>
+</div>
+
 
   <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
     {{ isEditing ? 'Update' : 'Create' }} Product

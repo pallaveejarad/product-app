@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatOption } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 
@@ -21,7 +22,8 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     MatSelectModule,
     CommonModule,
-    MatOption
+    MatOption,
+    MatRadioModule
   ],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css']
@@ -31,7 +33,8 @@ export class ProductFormComponent implements OnInit {
   product: Product = {
     id: undefined, name: '', price: 0, description: '', uploadedfile: null,
     productRange: {} as ProductRange,
-    countries: {} as CountryMasterData
+    countries: {} as CountryMasterData,
+    availability: ''
   };
   productRange: ProductRange[] = [];
   countryMasterData: CountryMasterData[] = [];
@@ -72,6 +75,7 @@ export class ProductFormComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       productRange: ['', Validators.required], 
       countryIds: [[], Validators.required],
+      availability: ['', Validators.required]
     });
 
 
@@ -83,6 +87,7 @@ export class ProductFormComponent implements OnInit {
           name: product.name,
           price: product.price,
           description: product.description,
+          availability: product.availability,
           productRange: product.productRange?.id ?? null,
           countryIds: Array.isArray(product.countries) 
             ? product.countries.map((c: any) => c.id) 

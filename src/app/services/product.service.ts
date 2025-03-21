@@ -10,6 +10,7 @@ export interface Product {
   uploadedfile?: File | null;
   productRange: ProductRange;
   countries:CountryMasterData;
+  availability: string;
 
 }
 
