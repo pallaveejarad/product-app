@@ -8,6 +8,9 @@ export interface Product {
   price: number;
   description: string;
   uploadedfile?: File | null;
+  productRange: ProductRange;
+  countries:CountryMasterData;
+
 }
 
 export interface PaginatedResponse { 
@@ -16,11 +19,21 @@ export interface PaginatedResponse {
 
 }
 
+export interface ProductRange {
+  id: number;
+  priceRange: string;
+}
+
+export interface CountryMasterData {
+  id: number;
+  countryName: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  
 
   private apiUrl = 'http://localhost:8080/api/products';
 
@@ -51,5 +64,13 @@ export class ProductService {
   getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
+
+  getRange(): Observable<ProductRange[]>{
+   return this.http.get<ProductRange[]>(`${this.apiUrl}/getProductRange`);
+  }
+
+  getCountryData(): Observable<CountryMasterData[]>{
+    return this.http.get<CountryMasterData[]>(`${this.apiUrl}/getCountryMasterData`);
+   }
 
 }

@@ -16,7 +16,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 })
 export class ProductListComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'name', 'price', 'description', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'price', 'description', 'priceRange', 'countries', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
 
   totalItems = 0;
