@@ -9,10 +9,10 @@ export interface Product {
   description: string;
   uploadedfile?: File | null;
   productRange: ProductRange;
-  countries:CountryMasterData;
+  countries:CountryMasterData[];
   availability: string;
-  featuresWant: String;
-
+  featuresWant: string;
+  manufacturingDate: string | Date;
 }
 
 export interface PaginatedResponse { 

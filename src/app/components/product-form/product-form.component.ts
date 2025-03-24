@@ -10,6 +10,8 @@ import { MatOption } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';   
+import { MatDatepickerActions, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -25,7 +27,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     CommonModule,
     MatOption,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css']
@@ -35,9 +39,10 @@ export class ProductFormComponent implements OnInit {
   product: Product = {
     id: undefined, name: '', price: 0, description: '', uploadedfile: null,
     productRange: {} as ProductRange,
-    countries: {} as CountryMasterData,
+    countries: {} as CountryMasterData[],
     availability: '',
-    featuresWant: ''
+    featuresWant: '',
+    manufacturingDate: ''
   };
 
   productRange: ProductRange[] = [];
@@ -85,7 +90,8 @@ export class ProductFormComponent implements OnInit {
         Portable:[false],
         Efficient:[false],
         Reasonable:[false],
-      })
+      }),
+      manufacturingDate: ['', [this.manufactureDateValidator]], 
     });
 
 
@@ -107,7 +113,8 @@ export class ProductFormComponent implements OnInit {
               Portable: product.featuresWant ? product.featuresWant.includes('Portable') : false,
               Efficient: product.featuresWant ? product.featuresWant.includes('Efficient') : false,
               Reasonable: product.featuresWant ? product.featuresWant.includes('Reasonable') : false,
-            }
+            },
+            manufacturingDate: product.manufacturingDate? new Date(product.manufacturingDate) : null
         });
       });
     }
@@ -156,6 +163,25 @@ export class ProductFormComponent implements OnInit {
     }
 
   }
+
+  manufactureDateValidator(control: any) {
+    console.log("Date value ---->" +control.value);
+    if (!control.value) {
+      return { required: true }; // If empty, return required error
+    }
+    
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+  
+    // Ensure the selected date is not in the future
+    if (selectedDate > today) {
+      return { futureDateNotAllowed: true };
+    }
+  
+    return null; // ✅ Always return a value
+  }
+  
+
 } 
 function convertToFormData(obj: any): FormData {
   const formData = new FormData();
@@ -174,6 +200,9 @@ function convertToFormData(obj: any): FormData {
         .filter(feature => rawValues[key][feature]) // Get only selected checkboxes
         .join(', '); // Convert to CSV format
       formData.append(key, selectedFeatures);
+      } else if (key === 'manufacturingDate' && rawValues[key]) {
+        const formattedDate = new Date(rawValues[key]).toISOString().split('T')[0]; // Convert to YYYY-MM-DD
+        formData.append(key, formattedDate);
       } else {
         formData.append(key, rawValues[key].toString());
       }

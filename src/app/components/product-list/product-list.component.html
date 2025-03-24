@@ -70,7 +70,14 @@
       <button mat-raised-button color="warn" (click)="deleteProduct(product.id)">Delete</button>
     </td>
   </ng-container>
-
+  
+  <!-- Date-->
+   <ng-container matColumnDef="manufacturingDate">
+    <th mat-header-cell *matHeaderCellDef> Manufacturing Date </th>
+    <td mat-cell *matCellDef="let product"> 
+      {{ product.manufacturingDate | date: 'longDate' }}  <!-- ✅ Formatting the date -->
+    </td>
+   </ng-container>
 
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -66,6 +66,7 @@
   </mat-error>
 </mat-form-field>
 
+<!--Avilability of product-->
 <div>
 <label>Availability: </label>
 <mat-radio-group formControlName="availability"> 
@@ -74,7 +75,7 @@
 </mat-radio-group>
 </div>
 
-
+<!-- Features We wanted -->
 <div formGroupName="featuresWant">
   <label> Features:</label>
   <mat-checkbox formControlName= "Robust"> Robust</mat-checkbox>
@@ -82,6 +83,20 @@
   <mat-checkbox formControlName= "Efficient"> Efficient</mat-checkbox>
   <mat-checkbox formControlName= "Reasonable"> Reasonable</mat-checkbox>
 </div>
+
+<mat-form-field appearance="outline">
+  <mat-label>Manufacturing Date</mat-label>
+  <input matInput [matDatepicker]="picker" formControlName="manufacturingDate">
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+
+  <mat-error *ngIf="productForm.get('manufacturingDate')?.hasError('required')">
+    Manufacturing date is required.
+  </mat-error>
+  <mat-error *ngIf="productForm.get('manufacturingDate')?.hasError('futureDateNotAllowed')">
+    Future date is not allowed.
+  </mat-error>
+</mat-form-field>
 
 
   <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
