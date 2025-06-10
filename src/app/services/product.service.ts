@@ -7,6 +7,12 @@ export interface Product {
   name: string;
   price: number;
   description: string;
+  uploadedfile?: File | null;
+  productRange: ProductRange;
+  countries:CountryMasterData[];
+  availability: string;
+  featuresWant: string;
+  manufacturingDate: string | Date;
 }
 
 export interface PaginatedResponse { 
@@ -15,11 +21,21 @@ export interface PaginatedResponse {
 
 }
 
+export interface ProductRange {
+  id: number;
+  priceRange: string;
+}
+
+export interface CountryMasterData {
+  id: number;
+  countryName: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  
 
   private apiUrl = 'http://localhost:8080/api/products';
 
@@ -33,19 +49,14 @@ export class ProductService {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
-  createProduct(product: Product): Observable<Product> {
-    console.log('Sending product:', product); // Debugging line
-
-    return this.http.post<Product>(this.apiUrl, product, {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-        }),
-    });
+  createProduct(formData: FormData): Observable<Product> {
+    console.log('Sending product:', formData); // Debugging line
+    return this.http.post<Product>(this.apiUrl, formData);
 }
 
 
-  updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
+  updateProduct(id: number, formData: FormData): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, formData);
   }
 
   deleteProduct(id: number): Observable<void> {
@@ -55,5 +66,13 @@ export class ProductService {
   getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
+
+  getRange(): Observable<ProductRange[]>{
+   return this.http.get<ProductRange[]>(`${this.apiUrl}/getProductRange`);
+  }
+
+  getCountryData(): Observable<CountryMasterData[]>{
+    return this.http.get<CountryMasterData[]>(`${this.apiUrl}/getCountryMasterData`);
+   }
 
 }

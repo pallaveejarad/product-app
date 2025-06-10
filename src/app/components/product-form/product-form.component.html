@@ -28,10 +28,81 @@
     <mat-error *ngIf="productForm.get('description')?.hasError('maxlength')">Maximum 100 characters allowed</mat-error>
   </mat-form-field>
 
+ <!-- File Upload Field -->
+<div class="custom-file-upload">
+  <label>Upload File:</label>
+  <input type="file" (change)="onFileSelected($event)" #fileInput hidden />
+  &nbsp;
+  <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">
+    Choose File
+  </button>
+
+  <span *ngIf="selectedFile">{{ selectedFile?.name }}</span>
+</div>
+
+<!-- Price range -->
+ <mat-form-field appearance="outline">
+  <mat-label>Price Range</mat-label>
+    <mat-select formControlName="productRange">
+      <mat-option *ngFor="let range of productRange" [value]="range.id">
+        {{range.priceRange}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="productForm.get('productRange')?.hasError('required')">
+      Price Range is required
+    </mat-error>
+ </mat-form-field>
+ 
+<!--Countries-->
+ <mat-form-field appearance="outline">
+  <mat-label>Select Countries</mat-label>
+  <mat-select formControlName="countryIds" multiple>
+    <mat-option *ngFor="let country of countryMasterData" [value]="country.id">
+      {{ country.countryName }}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="productForm.get('countryMasterData')?.hasError('required')">
+    At least one country must be selected
+  </mat-error>
+</mat-form-field>
+
+<!--Avilability of product-->
+<div>
+<label>Availability: </label>
+<mat-radio-group formControlName="availability"> 
+<mat-radio-button value="In-Stock"> In-Stock</mat-radio-button>
+<mat-radio-button value="Out-Of-Stock"> Out-Of-Stock</mat-radio-button>
+</mat-radio-group>
+</div>
+
+<!-- Features We wanted -->
+<div formGroupName="featuresWant">
+  <label> Features:</label>
+  <mat-checkbox formControlName= "Robust"> Robust</mat-checkbox>
+  <mat-checkbox formControlName= "Portable"> Portable</mat-checkbox>
+  <mat-checkbox formControlName= "Efficient"> Efficient</mat-checkbox>
+  <mat-checkbox formControlName= "Reasonable"> Reasonable</mat-checkbox>
+</div>
+
+<mat-form-field appearance="outline">
+  <mat-label>Manufacturing Date</mat-label>
+  <input matInput [matDatepicker]="picker" formControlName="manufacturingDate">
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+
+  <mat-error *ngIf="productForm.get('manufacturingDate')?.hasError('required')">
+    Manufacturing date is required.
+  </mat-error>
+  <mat-error *ngIf="productForm.get('manufacturingDate')?.hasError('futureDateNotAllowed')">
+    Future date is not allowed.
+  </mat-error>
+</mat-form-field>
+
+
   <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
     {{ isEditing ? 'Update' : 'Create' }} Product
   </button>
-
+&nbsp;
   <button mat-raised-button color="warn" type="button" (click)="router.navigate(['/products'])">
     Cancel
   </button>
